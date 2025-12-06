@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerTant - Clever Decisions. Faster Growth.</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg"> 
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'], // Font lebih modern
+                    },
+                    colors: {
+                        // Warna baru berdasarkan Logo VerTant (Gradient Cyan - Blue)
+                        'ver-dark': '#0f172a',
+                        'ver-light': '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* CSS untuk Background Gradient yang Stylish */
+        .hero-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Ornamen Gradient Lingkaran */
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(6,182,212,0.15) 0%, rgba(59,130,246,0) 70%);
+            transform: rotate(30deg);
+            z-index: 0;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #22d3ee, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(to right, #06b6d4, #3b82f6);
+            transition: all 0.3s ease;
+        }
+        .btn-gradient:hover {
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .lang-btn.active {
+            opacity: 1;
+            transform: scale(1.1);
+            border: 2px solid #3b82f6;
+        }
+        .lang-btn.inactive {
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+    </style>
+</head>
+
+<body class="bg-ver-light font-sans text-gray-800 selection:bg-cyan-200 selection:text-blue-900">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 group">
+                <img src="logo.svg" alt="VerTant Logo" class="h-10 w-auto transition-transform group-hover:scale-105" data-lang-en-alt="VerTant Logo" data-lang-id-alt="Logo VerTant">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-500">VerTant</span>
+                    <span class="text-[10px] font-medium tracking-wider text-gray-500 uppercase -mt-1">Clever Consultant</span>
+                </div>
+            </a>
+            
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#about" class="text-gray-600 hover:text-blue-600 font-medium transition-colors" data-lang-en="About Us" data-lang-id="Tentang Kami">About Us</a>
+                <a href="#services" class="text-gray-600 hover:text-blue-600 font-medium transition-colors" data-lang-en="Services" data-lang-id="Layanan">Services</a>
+                <a href="#process" class="text-gray-600 hover:text-blue-600 font-medium transition-colors" data-lang-en="Process" data-lang-id="Proses">Process</a>
+                <a href="#contact" class="text-gray-600 hover:text-blue-600 font-medium transition-colors" data-lang-en="Contact" data-lang-id="Kontak">Contact</a>
+                <a href="#consultation" class="btn-gradient text-white px-6 py-2 rounded-full font-semibold shadow-md" data-lang-en="Request Consultation" data-lang-id="Minta Konsultasi">Request Consultation</a>
+                
+                <div class="flex space-x-2 ml-4">
+                    <button id="lang-en-btn" class="lang-btn active p-0.5 rounded-full transition-all">
+                        <img src="uk.png" alt="English" class="w-6 h-6 rounded-full object-cover">
+                    </button>
+                    <button id="lang-id-btn" class="lang-btn inactive p-0.5 rounded-full transition-all">
+                        <svg class="w-6 h-6 rounded-full" viewBox="0 0 36 36"><path fill="#e70011" d="M0 0h36v18H0z"/><path fill="#fff" d="M0 18h36v18H0z"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="mobile-menu-button" class="md:hidden text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2 bg-white border-b">
+            <a href="#about" class="block text-gray-600 hover:text-blue-600 py-2" data-lang-en="About Us" data-lang-id="Tentang Kami">About Us</a>
+            <a href="#services" class="block text-gray-600 hover:text-blue-600 py-2" data-lang-en="Services" data-lang-id="Layanan">Services</a>
+            <a href="#process" class="block text-gray-600 hover:text-blue-600 py-2" data-lang-en="Process" data-lang-id="Proses">Process</a>
+            <a href="#contact" class="block text-gray-600 hover:text-blue-600 py-2" data-lang-en="Contact" data-lang-id="Kontak">Contact</a>
+            <a href="#consultation" class="block btn-gradient text-white px-5 py-3 mt-4 rounded-lg font-semibold text-center" data-lang-en="Request Consultation" data-lang-id="Minta Konsultasi">Request Consultation</a>
+            
+            <div class="flex space-x-4 justify-center pt-4">
+                <button id="lang-en-btn-mobile" class="lang-btn active p-1 rounded-full transition-all">
+                     <img src="uk.png" alt="English" class="w-8 h-8 rounded-full object-cover">
+                </button>
+                <button id="lang-id-btn-mobile" class="lang-btn inactive p-1 rounded-full transition-all">
+                    <svg class="w-8 h-8 rounded-full" viewBox="0 0 36 36"><path fill="#e70011" d="M0 0h36v18H0z"/><path fill="#fff" d="M0 18h36v18H0z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero-bg text-white py-24 md:py-36">
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6 tracking-tight" data-lang-en="Smarter Decisions. Faster Growth." data-lang-id="Keputusan Lebih Cerdas. Pertumbuhan Lebih Cepat.">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-blue-300 to-white">Smarter Decisions.</span><br>Faster Growth.
+                </h1>
+                <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-10 leading-relaxed" data-lang-en="VerTant leverages AI-driven data analytics and decision intelligence to forge your path to success. We turn complex data into actionable business strategies." data-lang-id="VerTant memanfaatkan analitik data berbasis AI dan kecerdasan keputusan untuk menempa jalan Anda menuju sukses. Kami mengubah data kompleks menjadi strategi bisnis yang dapat ditindaklanjuti.">
+                    VerTant leverages AI-driven data analytics and decision intelligence to forge your path to success. We turn complex data into actionable business strategies.
+                </p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <a href="#consultation" class="btn-gradient text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105 transition-all" data-lang-en="Get Started" data-lang-id="Mulai">Get Started</a>
+                    <a href="#services" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all" data-lang-en="Explore Services" data-lang-id="Lihat Layanan">Explore Services</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-cyan-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4" data-lang-en="Why Partner with VerTant?" data-lang-id="Mengapa Bermitra dengan VerTant?">Why Partner with <span class="gradient-text">VerTant</span>?</h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto text-lg" data-lang-en="We combine the best of artificial and human intelligence." data-lang-id="Kami menggabungkan yang terbaik dari kecerdasan buatan dan manusia.">We combine the best of artificial and human intelligence.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="bg-gradient-to-br from-cyan-400 to-blue-600 text-white rounded-2xl h-14 w-14 flex items-center justify-center mb-6 shadow-lg">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-lang-en="AI-Driven Insights" data-lang-id="Wawasan Berbasis AI">AI-Driven Insights</h3>
+                        <p class="text-gray-600 leading-relaxed" data-lang-en="Uncover hidden patterns and forecast trends with precision." data-lang-id="Temukan pola tersembunyi dan prediksi tren dengan presisi.">Uncover hidden patterns and forecast trends with precision.</p>
+                    </div>
+                    
+                    <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                         <div class="bg-gradient-to-br from-cyan-400 to-blue-600 text-white rounded-2xl h-14 w-14 flex items-center justify-center mb-6 shadow-lg">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-lang-en="Expert Validation" data-lang-id="Validasi Ahli">Expert Validation</h3>
+                        <p class="text-gray-600 leading-relaxed" data-lang-en="AI recommendations refined by data scientists and strategists." data-lang-id="Rekomendasi AI disempurnakan oleh ilmuwan data dan ahli strategi.">AI recommendations refined by data scientists and strategists.</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="bg-gradient-to-br from-cyan-400 to-blue-600 text-white rounded-2xl h-14 w-14 flex items-center justify-center mb-6 shadow-lg">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-lang-en="Unmatched Efficiency" data-lang-id="Efisiensi Tinggi">Unmatched Efficiency</h3>
+                        <p class="text-gray-600 leading-relaxed" data-lang-en="Fraction of the time and cost of traditional consulting." data-lang-id="Waktu dan biaya lebih hemat dari konsultasi tradisional.">Fraction of the time and cost of traditional consulting.</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="bg-gradient-to-br from-cyan-400 to-blue-600 text-white rounded-2xl h-14 w-14 flex items-center justify-center mb-6 shadow-lg">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-lang-en="Flexible Engagements" data-lang-id="Keterlibatan Fleksibel">Flexible Engagements</h3>
+                        <p class="text-gray-600 leading-relaxed" data-lang-en="Tailored to your needs, from reports to on-site projects." data-lang-id="Disesuaikan dengan kebutuhan Anda, dari laporan hingga proyek di tempat.">Tailored to your needs, from reports to on-site projects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-24 bg-ver-light border-y border-gray-200">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6" data-lang-en="The VerTant Synergy" data-lang-id="Sinergi VerTant">The <span class="gradient-text">VerTant</span> Synergy</h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed text-lg" data-lang-en="Our mission is to democratize high-level business strategy. We believe that by combining the computational power of AI with the nuanced wisdom of human experts, we can provide superior decision intelligence to businesses of all sizes." data-lang-id="Misi kami adalah mendemokratisasikan strategi bisnis tingkat tinggi. Kami percaya bahwa dengan menggabungkan kekuatan komputasi AI dengan kearifan ahli manusia, kami dapat memberikan kecerdasan keputusan yang unggul untuk bisnis dari semua ukuran.">Our mission is to democratize high-level business strategy. We believe that by combining the computational power of AI with the nuanced wisdom of human experts, we can provide superior decision intelligence to businesses of all sizes.</p>
+                        
+                        <div class="flex flex-wrap gap-3 mt-8">
+                           <span class="bg-cyan-50 text-cyan-700 border border-cyan-100 px-4 py-2 rounded-full text-sm font-semibold" data-lang-en="AI Engineers" data-lang-id="Insinyur AI">AI Engineers</span>
+                           <span class="bg-blue-50 text-blue-700 border border-blue-100 px-4 py-2 rounded-full text-sm font-semibold" data-lang-en="Data Scientists" data-lang-id="Ilmuwan Data">Data Scientists</span>
+                           <span class="bg-indigo-50 text-indigo-700 border border-indigo-100 px-4 py-2 rounded-full text-sm font-semibold" data-lang-en="Business Strategists" data-lang-id="Ahli Strategi Bisnis">Business Strategists</span>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="bg-gradient-to-tr from-cyan-300 to-blue-500 p-2 rounded-2xl shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500">
+                            <img src="our-team.png" alt="VerTant Team" class="rounded-xl bg-white" data-lang-en-alt="VerTant Team" data-lang-id-alt="Tim VerTant">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="services" class="py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4" data-lang-en="Our Core Services" data-lang-id="Layanan Inti Kami">Our Core <span class="gradient-text">Services</span></h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg" data-lang-en="Tailored solutions designed to meet your business where it is." data-lang-id="Solusi khusus yang dirancang untuk memenuhi bisnis Anda di mana pun ia berada.">Tailored solutions designed to meet your business where it is.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                    
+                    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col">
+                        <div class="h-12 w-12 bg-cyan-100 rounded-lg flex items-center justify-center mb-6 text-cyan-600">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3" data-lang-en="AI-Based Strategy Report" data-lang-id="Laporan Strategi AI">AI-Based Strategy Report</h3>
+                        <p class="text-gray-500 mb-6 flex-grow leading-relaxed" data-lang-en="Fast, data-driven insights. Submit your data and receive a comprehensive strategic report validated by experts." data-lang-id="Wawasan cepat berbasis data. Kirim data Anda dan terima laporan strategis komprehensif yang divalidasi oleh para ahli.">Fast, data-driven insights. Submit your data and receive a comprehensive strategic report validated by experts.</p>
+                         <a href="#consultation" class="font-bold text-blue-600 hover:text-blue-800 flex items-center" data-lang-en="Get Insights &rarr;" data-lang-id="Dapatkan Wawasan &rarr;">Get Insights &rarr;</a>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col">
+                        <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3" data-lang-en="On-Site Consulting Project" data-lang-id="Proyek Konsultasi">On-Site Consulting Project</h3>
+                        <p class="text-gray-500 mb-6 flex-grow leading-relaxed" data-lang-en="Full engagement. Our team works directly with yours to supervise operations and drive change from within." data-lang-id="Keterlibatan penuh. Tim kami bekerja langsung dengan Anda untuk mengawasi operasi dan mendorong perubahan.">Full engagement. Our team works directly with yours to supervise operations and drive change from within.</p>
+                         <a href="#consultation" class="font-bold text-blue-600 hover:text-blue-800 flex items-center" data-lang-en="Start Project &rarr;" data-lang-id="Mulai Proyek &rarr;">Start Project &rarr;</a>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-gray-900 to-blue-900 text-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col relative overflow-hidden">
+                        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-cyan-500 rounded-full blur-2xl opacity-20"></div>
+                        
+                        <div class="h-12 w-12 bg-white/10 backdrop-blur-md rounded-lg flex items-center justify-center mb-6 text-cyan-300">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3" data-lang-en="Online Coaching" data-lang-id="Pelatihan Online">Online Coaching</h3>
+                        <p class="text-gray-300 mb-6 flex-grow leading-relaxed" data-lang-en="Personalized mentorship. Regular video sessions with our experts to guide your decisions and strategy in real-time." data-lang-id="Mentoring yang dipersonalisasi. Sesi video rutin dengan pakar kami untuk memandu keputusan dan strategi Anda secara real-time.">Personalized mentorship. Regular video sessions with our experts to guide your decisions and strategy in real-time.</p>
+                         <a href="#consultation" class="font-bold text-cyan-300 hover:text-cyan-100 flex items-center" data-lang-en="Book Session &rarr;" data-lang-id="Pesan Sesi &rarr;">Book Session &rarr;</a>
+                    </div>
+
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left min-w-[800px]">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="p-5 font-bold text-gray-700" data-lang-en="Feature" data-lang-id="Fitur">Feature</th>
+                                    <th class="p-5 font-bold text-blue-600" data-lang-en="AI Strategy Report" data-lang-id="Laporan Strategi AI">AI Strategy Report</th>
+                                    <th class="p-5 font-bold text-blue-800" data-lang-en="Project Contract" data-lang-id="Kontrak Proyek">Project Contract</th>
+                                    <th class="p-5 font-bold text-cyan-600" data-lang-en="Online Coaching" data-lang-id="Pelatihan Online">Online Coaching</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr>
+                                    <td class="p-5 font-medium text-gray-700" data-lang-en="Timeline" data-lang-id="Linimasa">Timeline</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="Fast (Days)" data-lang-id="Cepat (Hari)">Fast (Days)</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="Extended (Weeks/Months)" data-lang-id="Lama (Minggu/Bulan)">Extended (Weeks/Months)</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="Flexible (Hourly/Session)" data-lang-id="Fleksibel (Per Jam)">Flexible (Hourly)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-5 font-medium text-gray-700" data-lang-en="Cost" data-lang-id="Biaya">Cost</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="Fixed Price" data-lang-id="Harga Tetap">Fixed Price</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="Contract Based" data-lang-id="Berdasarkan Kontrak">Contract Based</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="Per Session / Package" data-lang-id="Per Sesi / Paket">Per Session / Package</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-5 font-medium text-gray-700" data-lang-en="Involvement" data-lang-id="Keterlibatan">Involvement</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="Low (Data Submission)" data-lang-id="Rendah (Pengumpulan Data)">Low (Data Submission)</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="High (Direct Collaboration)" data-lang-id="Tinggi (Kolaborasi Langsung)">High (Direct Collab)</td>
+                                    <td class="p-5 text-gray-500" data-lang-en="Medium (Mentorship)" data-lang-id="Sedang (Mentoring)">Medium (Mentorship)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="py-24 bg-ver-light">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4" data-lang-en="How It Works" data-lang-id="Cara Kerjanya">How It <span class="gradient-text">Works</span></h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg" data-lang-en="A streamlined process to get you from question to action." data-lang-id="Proses yang efisien untuk membawa Anda dari pertanyaan ke tindakan.">A streamlined process to get you from question to action.</p>
+                </div>
+                <div class="relative">
+                    <div class="hidden md:block absolute top-10 left-0 w-full h-1 bg-gradient-to-r from-gray-200 via-blue-200 to-gray-200" style="z-index: 0;"></div>
+                    
+                    <div class="grid md:grid-cols-4 gap-8 relative z-10">
+                        <div class="text-center group">
+                            <div class="relative mb-6 inline-block">
+                               <div class="w-20 h-20 flex items-center justify-center bg-white text-blue-600 rounded-full text-2xl font-bold border-4 border-blue-50 shadow-xl group-hover:scale-110 transition-transform">1</div>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2" data-lang-en="Submit Proposal" data-lang-id="Kirim Proposal">Submit Proposal</h3>
+                            <p class="text-gray-500 text-sm px-4" data-lang-en="Fill out our dynamic form with your business details and goals." data-lang-id="Isi formulir dinamis kami dengan detail bisnis dan tujuan Anda.">Fill out our dynamic form with your business details and goals.</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="relative mb-6 inline-block">
+                                <div class="w-20 h-20 flex items-center justify-center bg-white text-blue-600 rounded-full text-2xl font-bold border-4 border-blue-50 shadow-xl group-hover:scale-110 transition-transform">2</div>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2" data-lang-en="Review & Assign" data-lang-id="Tinjau & Tugaskan">Review & Assign</h3>
+                            <p class="text-gray-500 text-sm px-4" data-lang-en="We verify your submission and assign the right team of experts." data-lang-id="Kami memverifikasi kiriman Anda dan menugaskan tim ahli yang tepat.">We verify your submission and assign the right team of experts.</p>
+                        </div>
+                        <div class="text-center group">
+                             <div class="relative mb-6 inline-block">
+                                <div class="w-20 h-20 flex items-center justify-center bg-white text-blue-600 rounded-full text-2xl font-bold border-4 border-blue-50 shadow-xl group-hover:scale-110 transition-transform">3</div>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2" data-lang-en="Analysis & Creation" data-lang-id="Analisis & Pembuatan">Analysis & Creation</h3>
+                            <p class="text-gray-500 text-sm px-4" data-lang-en="Our team and AI get to work crafting your strategic solution." data-lang-id="Tim kami dan AI mulai bekerja menyusun solusi strategis Anda.">Our team and AI get to work crafting your strategic solution.</p>
+                        </div>
+                        <div class="text-center group">
+                             <div class="relative mb-6 inline-block">
+                               <div class="w-20 h-20 flex items-center justify-center bg-gradient-to-br from-cyan-400 to-blue-600 text-white rounded-full text-2xl font-bold shadow-xl group-hover:scale-110 transition-transform">4</div>
+                           </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2" data-lang-en="Delivery & Deployment" data-lang-id="Pengiriman & Penerapan">Delivery & Deployment</h3>
+                            <p class="text-gray-500 text-sm px-4" data-lang-en="Receive your report, start your project, or begin your coaching." data-lang-id="Terima laporan Anda, mulai proyek, atau mulai pelatihan Anda.">Receive your report, start your project, or begin your coaching.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="consultation" class="py-24 bg-white relative">
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4" data-lang-en="Request a Consultation" data-lang-id="Minta Konsultasi">Request a <span class="gradient-text">Consultation</span></h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg" data-lang-en="Let's build your future. Fill out the form below." data-lang-id="Mari bangun masa depan Anda. Isi formulir di bawah ini.">Let's build your future. Fill out the form below.</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-2xl border border-gray-100">
+                    <form id="consultation-form" action="https://formspree.io/f/mblplrrg" method="POST">
+                        <input type="hidden" id="form-subject" name="_subject" value="New VerTant Proposal">
+                        
+                        <h3 class="text-xl font-bold text-blue-800 border-b border-gray-200 pb-3 mb-8" data-lang-en="Company Information" data-lang-id="Informasi Perusahaan">Company Information</h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="company-name" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Company Name" data-lang-id="Nama Perusahaan">Company Name</label>
+                                <input type="text" id="company-name" name="company-name" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                            </div>
+                            <div>
+                                <label for="contact-name" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Contact Name" data-lang-id="Nama Kontak">Contact Name</label>
+                                <input type="text" id="contact-name" name="contact-name" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                            </div>
+                            <div>
+                                <label for="contact-email" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Contact Email" data-lang-id="Email Kontak">Contact Email</label>
+                                <input type="email" id="contact-email" name="contact-email" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                            </div>
+                             <div>
+                                <label for="contact-phone" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Phone Number" data-lang-id="Nomor Telepon">Phone Number</label>
+                                <input type="tel" id="contact-phone" name="contact-phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="company-country" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Company Country" data-lang-id="Negara Perusahaan">Company Country</label>
+                                <input type="text" id="company-country" name="company-country" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                            </div>
+                        </div>
+                        <div class="mb-8">
+                            <label for="company-address" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Domiciled Address" data-lang-id="Alamat Domisili">Domiciled Address</label>
+                             <textarea id="company-address" name="company-address" rows="3" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"></textarea>
+                        </div>
+
+
+                        <h3 class="text-xl font-bold text-blue-800 border-b border-gray-200 pb-3 mb-8" data-lang-en="Service Details" data-lang-id="Detail Layanan">Service Details</h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="service-type" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Type of Service" data-lang-id="Jenis Layanan">Type of Service</label>
+                                <select id="service-type" name="service-type" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                                    <option value="report" data-lang-en="AI-Based Strategy Report" data-lang-id="Laporan Strategi Berbasis AI">AI-Based Strategy Report</option>
+                                    <option value="project" data-lang-en="On-Site Consulting Project" data-lang-id="Proyek Konsultasi di Tempat">On-Site Consulting Project</option>
+                                    <option value="coaching" data-lang-en="Online Coaching" data-lang-id="Pelatihan Online">Online Coaching</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label for="project-scale" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Scale of Consulting" data-lang-id="Skala Konsultasi">Scale of Consulting</label>
+                                <select id="project-scale" name="project-scale" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                                    <option value="small" data-lang-en="Small-Scale" data-lang-id="Skala Kecil">Small-Scale</option>
+                                    <option value="large" data-lang-en="Large-Scale" data-lang-id="Skala Besar">Large-Scale</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                             <label for="business-goals" class="block text-sm font-semibold text-gray-700 mb-2" data-lang-en="Describe Your Business Goals or Problems" data-lang-id="Jelaskan Tujuan atau Masalah Bisnis Anda">Describe Your Business Goals or Problems</label>
+                             <textarea id="business-goals" name="business-goals" rows="5" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"></textarea>
+                        </div>
+                        
+                        <div id="dynamic-fields-container" class="space-y-6 mb-8">
+                             </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn-gradient text-white px-12 py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl w-full md:w-auto transform hover:-translate-y-1 transition-all" data-lang-en="Submit Your Proposal" data-lang-id="Kirim Proposal Anda">Submit Your Proposal</button>
+                            <p class="text-xs text-gray-500 mt-4" data-lang-en="We will reach out to you via email for pricing and next steps." data-lang-id="Kami akan menghubungi Anda melalui email untuk harga dan langkah selanjutnya.">We will reach out to you via email for pricing and next steps.</p>
+                        </div>
+
+                    </form>
+                    <div id="form-success-message" class="hidden mt-6 p-6 text-center bg-green-50 border border-green-200 text-green-800 rounded-xl" data-lang-en="Thank you! Your proposal has been submitted." data-lang-id="Terima kasih! Proposal Anda telah dikirim.">
+                        Thank you! Your proposal has been submitted.
+                    </div>
+                     <div id="form-error-message" class="hidden mt-6 p-6 text-center bg-red-50 border border-red-200 text-red-800 rounded-xl" data-lang-en="An error occurred. Please try again." data-lang-id="Terjadi kesalahan. Silakan coba lagi.">
+                        An error occurred. Please try again.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-ver-light">
+            <div class="container mx-auto px-6">
+                <h3 class="text-center text-3xl md:text-5xl font-bold mb-16" data-lang-en="Meet VerTant Founders" data-lang-id="Temui Pendiri VerTant">Meet <span class="gradient-text">VerTant</span> Founders</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-4 text-center">
+                    <div class="w-full group">
+                        <div class="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-4">
+                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                            <img src="findy.png" alt="Findy Nuraeni Muharam" class="relative rounded-full w-full h-full object-cover object-top border-4 border-white shadow-lg group-hover:scale-105 transition-transform">
+                        </div>
+                        <h4 class="font-bold text-md md:text-lg text-gray-800">Findy Nuraeni Muharam</h4>
+                        <p class="text-blue-500 text-sm">@findynraeni</p>
+                    </div>
+                    <div class="w-full group">
+                         <div class="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-4">
+                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                            <img src="millata.png" alt="Millata Izata Fitria" class="relative rounded-full w-full h-full object-cover object-top border-4 border-white shadow-lg group-hover:scale-105 transition-transform">
+                        </div>
+                        <h4 class="font-bold text-md md:text-lg text-gray-800">Millata Izata Fitria</h4>
+                        <p class="text-blue-500 text-sm">@millatazataa</p>
+                    </div>
+                    <div class="w-full md:-translate-y-6 order-first md:order-none col-span-2 md:col-span-1 group">
+                         <div class="relative w-28 h-28 md:w-40 md:h-40 mx-auto mb-4">
+                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur-md opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                            <img src="naufal.png" alt="Naufal Lazuardy Putra" class="relative rounded-full w-full h-full object-cover object-top border-4 border-white shadow-2xl group-hover:scale-105 transition-transform">
+                        </div>
+                        <h4 class="font-bold text-lg md:text-xl text-gray-900">Naufal Lazuardy Putra</h4>
+                        <p class="text-blue-600 font-semibold text-sm">@palpal_sinopal</p>
+                    </div>
+                    <div class="w-full group">
+                         <div class="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-4">
+                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                            <img src="hasyim.png" alt="Abdullah Hasyim" class="relative rounded-full w-full h-full object-cover object-top border-4 border-white shadow-lg group-hover:scale-105 transition-transform">
+                        </div>
+                        <h4 class="font-bold text-md md:text-lg text-gray-800">Abdullah Hasyim</h4>
+                        <p class="text-blue-500 text-sm">@hasyiimm24</p>
+                    </div>
+                    <div class="w-full group">
+                         <div class="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-4">
+                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                            <img src="emir.png" alt="Muhammad Emir El Hakam" class="relative rounded-full w-full h-full object-cover object-top border-4 border-white shadow-lg group-hover:scale-105 transition-transform">
+                        </div>
+                        <h4 class="font-bold text-md md:text-lg text-gray-800">Muhammad Emir El Hakam</h4>
+                        <p class="text-blue-500 text-sm">@aemyreil</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer id="contact" class="bg-[#0f172a] text-white border-t border-gray-800">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-3 gap-12">
+                <div>
+                    <h3 class="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">VerTant</h3>
+                    <p class="text-gray-400 leading-relaxed" data-lang-en="Smarter Decisions. Faster Growth." data-lang-id="Keputusan Lebih Cerdas. Pertumbuhan Lebih Cepat.">Smarter Decisions. Faster Growth.</p>
+                </div>
+                 <div>
+                    <h4 class="text-lg font-semibold mb-6 text-white" data-lang-en="Quick Links" data-lang-id="Tautan Cepat">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-gray-400 hover:text-cyan-400 transition-colors" data-lang-en="About Us" data-lang-id="Tentang Kami">About Us</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-cyan-400 transition-colors" data-lang-en="Services" data-lang-id="Layanan">Services</a></li>
+                        <li><a href="#process" class="text-gray-400 hover:text-cyan-400 transition-colors" data-lang-en="Process" data-lang-id="Proses">Process</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h4 class="text-lg font-semibold mb-6 text-white" data-lang-en="Contact Us" data-lang-id="Hubungi Kami">Contact Us</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            arttant01@gmail.com
+                        </li>
+                        <li class="flex items-start gap-2" data-lang-en="Location: Telkom University, Bandung, West Java, Indonesia" data-lang-id="Lokasi: Telkom University, Bandung, Jawa Barat, Indonesia">
+                             <svg class="w-5 h-5 text-blue-500 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <span>Telkom University, Bandung, West Java, Indonesia</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+             <div class="mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm" data-lang-en="&copy; 2025 VerTant (Clever Consultant). All rights reserved." data-lang-id="&copy; 2025 VerTant (Clever Consultant). Hak cipta dilindungi undang-undang.">
+                &copy; 2025 VerTant (Clever Consultant). All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Element Selections ---
+            const langEnBtn = document.getElementById('lang-en-btn');
+            const langIdBtn = document.getElementById('lang-id-btn');
+            const langEnBtnMobile = document.getElementById('lang-en-btn-mobile');
+            const langIdBtnMobile = document.getElementById('lang-id-btn-mobile');
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            const projectScaleSelect = document.getElementById('project-scale');
+            const dynamicFieldsContainer = document.getElementById('dynamic-fields-container');
+
+            const consultationForm = document.getElementById('consultation-form');
+            const successMessage = document.getElementById('form-success-message');
+            const errorMessage = document.getElementById('form-error-message');
+            const serviceTypeInput = document.getElementById('service-type');
+            const projectScaleInput = document.getElementById('project-scale');
+            const subjectInput = document.getElementById('form-subject');
+
+            // --- Language Content for Dynamic Fields ---
+            const largeScaleFieldsEn = `
+                <div>
+                    <label for="team-size" class="block text-sm font-semibold text-gray-700 mb-2">Company Size / Number of Employees</label>
+                    <input type="number" id="team-size" name="team-size" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="revenue" class="block text-sm font-semibold text-gray-700 mb-2">Annual Revenue (Approx.)</label>
+                    <input type="text" id="revenue" name="revenue" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., $5M - $10M">
+                </div>
+                 <div>
+                    <label for="data-sources" class="block text-sm font-semibold text-gray-700 mb-2">Key Data Sources to Analyze</label>
+                    <input type="text" id="data-sources" name="data-sources" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Financial, Operational, Customer Data">
+                </div>
+            `;
+            const largeScaleFieldsId = `
+                <div>
+                    <label for="team-size" class="block text-sm font-semibold text-gray-700 mb-2">Ukuran Perusahaan / Jumlah Karyawan</label>
+                    <input type="number" id="team-size" name="team-size" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="revenue" class="block text-sm font-semibold text-gray-700 mb-2">Pendapatan Tahunan (Perkiraan)</label>
+                    <input type="text" id="revenue" name="revenue" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="cth: $5M - $10M">
+                </div>
+                <div>
+                    <label for="data-sources" class="block text-sm font-semibold text-gray-700 mb-2">Sumber Data Utama untuk Dianalisis</label>
+                    <input type="text" id="data-sources" name="data-sources" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="cth: Data Keuangan, Operasional, Pelanggan">
+                </div>
+            `;
+
+            // --- Main Function ---
+            function setLanguage(lang) {
+                if (!document.documentElement) return;
+                
+                document.documentElement.lang = lang;
+                
+                // Update buttons
+                const buttons = [langEnBtn, langIdBtn, langEnBtnMobile, langIdBtnMobile];
+                buttons.forEach(btn => {
+                    if (btn) {
+                        if (btn.id.includes(lang)) {
+                            btn.classList.add('active');
+                            btn.classList.remove('inactive');
+                        } else {
+                            btn.classList.add('inactive');
+                            btn.classList.remove('active');
+                        }
+                    }
+                });
+
+                // Update text content
+                const elements = document.querySelectorAll('[data-lang-en]');
+                elements.forEach(el => {
+                    const text = el.getAttribute(`data-lang-${lang}`);
+                    if (text) {
+                       if (el.tagName === 'INPUT' || el.tagName === 'BUTTON') {
+                            if (el.type === 'submit' || el.type === 'button') {
+                                el.value = text; 
+                            }
+                        } else if (el.tagName === 'OPTION') {
+                            el.textContent = text;
+                        } else if (el.tagName === 'TEXTAREA') {
+                             // Handle textareas
+                        } else {
+                            el.innerHTML = text; // Changed to innerHTML to support <br> or spans inside text
+                        }
+                    }
+
+                    // Update alt text for images
+                    const altText = el.getAttribute(`data-lang-${lang}-alt`);
+                    if(altText && el.tagName === 'IMG') {
+                        el.alt = altText;
+                    }
+                });
+
+                // Update placeholders
+                const placeholders = document.querySelectorAll('[data-lang-en-placeholder]');
+                placeholders.forEach(el => {
+                    const text = el.getAttribute(`data-lang-${lang}-placeholder`);
+                    if (text) el.placeholder = text;
+                });
+
+                // Update dynamic form fields
+                if (projectScaleSelect && dynamicFieldsContainer && projectScaleSelect.value === 'large') {
+                    dynamicFieldsContainer.innerHTML = lang === 'en' ? largeScaleFieldsEn : largeScaleFieldsId;
+                }
+            }
+            
+            // --- Event Listeners ---
+
+            // Language Switcher
+            if (langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
+            if (langIdBtn) langIdBtn.addEventListener('click', () => setLanguage('id'));
+            if (langEnBtnMobile) langEnBtnMobile.addEventListener('click', () => setLanguage('en'));
+            if (langIdBtnMobile) langIdBtnMobile.addEventListener('click', () => setLanguage('id'));
+
+            // Mobile Menu Toggle
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Dynamic Form Logic
+            if (projectScaleSelect) {
+                projectScaleSelect.addEventListener('change', (event) => {
+                    if (dynamicFieldsContainer) {
+                        dynamicFieldsContainer.innerHTML = ''; // Clear previous fields
+                        const currentLang = document.documentElement.lang || 'en';
+                        if (event.target.value === 'large') {
+                            dynamicFieldsContainer.innerHTML = currentLang === 'en' ? largeScaleFieldsEn : largeScaleFieldsId;
+                        }
+                    }
+                });
+            }
+
+            // Form Submission Handler
+            if (consultationForm) {
+                consultationForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Dynamically set subject
+                    if (serviceTypeInput && projectScaleInput && subjectInput) {
+                        const serviceType = serviceTypeInput.options[serviceTypeInput.selectedIndex].text;
+                        const projectScale = projectScaleInput.options[projectScaleInput.selectedIndex].text;
+                        subjectInput.value = `VerTant Proposal: ${serviceType} - ${projectScale}`;
+                    }
+
+                    const form = e.target;
+                    const data = new FormData(form);
+                    
+                    fetch(form.action, {
+                        method: form.method,
+                        body: data,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            form.reset();
+                            if (dynamicFieldsContainer) dynamicFieldsContainer.innerHTML = '';
+                            
+                            if (successMessage) successMessage.classList.remove('hidden');
+                            if (errorMessage) errorMessage.classList.add('hidden');
+                            
+                            setTimeout(() => {
+                                if (successMessage) successMessage.classList.add('hidden');
+                            }, 5000);
+                        } else {
+                            response.json().then(data => {
+                                if (errorMessage) errorMessage.classList.remove('hidden');
+                                if (successMessage) successMessage.classList.add('hidden');
+                            });
+                        }
+                    }).catch(error => {
+                        if (errorMessage) errorMessage.classList.remove('hidden');
+                        if (successMessage) successMessage.classList.add('hidden');
+                    });
+                });
+            }
+
+            // --- Initial Page Load ---
+            setLanguage('en'); 
+
+        });
+    </script>
+</body>
+</html>
+
